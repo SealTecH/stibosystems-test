@@ -1,0 +1,20 @@
+<ng-container  *ngIf="(loading$| async);else country">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+
+<ng-template #country >
+  <div>
+    <button mat-raised-button color="primary" ><a [routerLink]="'../'" class="link">Back to List</a></button>
+  </div>
+  <h2> Payment page!</h2>
+  <mat-card *ngIf="(data$ | async) as data;else empty">
+    <mat-card-header>
+      <mat-card-title> {{data.receiver}} - {{data.status }}</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+</ng-template>
+<ng-template #empty >
+  No payment found :(
+</ng-template>

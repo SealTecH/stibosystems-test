@@ -1,0 +1,28 @@
+<ng-container  *ngIf="(loading$| async);else user">
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>
+
+<ng-template #user >
+  <div>
+    <button mat-raised-button color="primary" ><a [routerLink]="'../'" class="link">Back to List</a></button>
+  </div>
+  <h2> User page!</h2>
+  <mat-card *ngIf="(data$ |async) as data;else empty">
+    <mat-card-header>
+      <mat-card-title> {{data.email}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="data.avatarUrl">
+        <img [src]="data.avatarUrl">
+      </div>
+      <div>
+        {{ data.firstName}} {{data.lastName}}
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+<ng-template #empty >
+  No user found :(
+</ng-template>

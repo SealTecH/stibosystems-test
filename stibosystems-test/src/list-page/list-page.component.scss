@@ -1,0 +1,49 @@
+:host {
+  display: block;
+  padding: 20px;
+}
+.list-row {
+  justify-content: space-between;
+}
+.mat-mdc-card {
+  margin-bottom: 10px;
+}
+.search-btn {
+  margin-left: 10px;
+}
+.user-info{
+  padding-right: 10px;
+  flex: 1;
+  cursor: pointer;
+}
+.user-name {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.no-img {
+  width: 70px;
+  height: 70px;
+}
+.viewport-container {
+  overflow-y: scroll;
+  height: calc(100vh - 205px);
+  max-width: 600px;
+}
+.country-info {
+  display: flex;
+  flex: 1;
+  cursor: pointer;
+}
+.flag-container {
+  margin-right: 10px;
+}
+.country-name {
+  display: flex;
+  align-items: center;
+}
+.payment-info {
+  display: flex;
+  cursor: pointer;
+  flex: 1;
+  align-items: center;
+}

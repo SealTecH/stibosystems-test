@@ -1,0 +1,105 @@
+<div *ngIf="(loading$ | async)===false; else loading">
+  <div>
+    <button mat-raised-button color="primary"  (click)="goBack()">Back to Dashboard</button>
+  </div>
+  <h2>Manage {{ pageTitle }}</h2>
+  <div class="display-flex">
+    <mat-form-field appearance="fill" class="search-control">
+      <mat-label>Search {{ pageTitle }}</mat-label>
+      <input matInput class="search-control" [formControl]="searchControl" placeholder="Search {{ pageTitle }}">
+    </mat-form-field>
+    <button mat-raised-button  class="search-btn" color="primary" [disabled]="!searchControl.value" (click)="clearSearch()"> Clear </button>
+  </div>
+  <div *ngIf="(filteredList$ | async )!.length; else emptyList">
+    <ng-container [ngSwitch]="entityType">
+        <ng-container *ngSwitchCase="entityTypes.Users">
+          <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport-container">
+            <mat-card *cdkVirtualFor="let item of (filteredList$ | async )">
+              <mat-card-content>
+                <ng-container [ngTemplateOutlet]="userRow" [ngTemplateOutletContext]="{item: item}" ></ng-container>
+              </mat-card-content>
+            </mat-card>
+          </cdk-virtual-scroll-viewport>
+        </ng-container>
+        <!-- end users block-->
+        <ng-container *ngSwitchCase="entityTypes.Payments">
+          <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport-container">
+            <mat-card *cdkVirtualFor="let item of (filteredList$ | async )">
+              <mat-card-content>
+                <ng-container [ngTemplateOutlet]="paymentRaw" [ngTemplateOutletContext]="{item: item}" ></ng-container>
+              </mat-card-content>
+            </mat-card>
+          </cdk-virtual-scroll-viewport>
+        </ng-container>
+        <!-- end users block-->
+
+        <ng-container *ngSwitchCase="entityTypes.Countries">
+          <cdk-virtual-scroll-viewport appendOnly itemSize="50" class="viewport-container">
+            <mat-card *cdkVirtualFor="let item of (filteredList$ | async )">
+              <mat-card-content>
+                <ng-container [ngTemplateOutlet]="countryRaw" [ngTemplateOutletContext]="{item: item}" ></ng-container>
+              </mat-card-content>
+            </mat-card>
+          </cdk-virtual-scroll-viewport>
+        </ng-container>
+        <!-- end users block-->
+    </ng-container>
+  </div>
+</div>
+<ng-template #emptyList>
+  <p> No items found!</p>
+</ng-template>
+<ng-template #loading >
+  <div class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+
+<ng-template #userRow let-item="item" >
+  <div class="display-flex list-row">
+    <div>
+      <mat-checkbox [checked]="checkSelectedItem(item)" (click)="changeItemSelection(item)"></mat-checkbox>
+    </div>
+    <div class="user-info" (click)="navigateToEntity(item)">
+      <div class="user-name">{{ item.firstName}}</div>
+      <div>{{ item.email}}</div>
+    </div>
+    <div>
+      <img *ngIf="item.avatarUrl;else noImg" [src]="item.avatarUrl" width="70" height="70">
+    </div>
+  </div>
+</ng-template>
+<ng-template #noImg>
+  <div class="no-img">
+     no <br>
+    image
+  </div>
+</ng-template>
+
+<ng-template #countryRaw let-item="item" >
+  <div class="display-flex list-row">
+    <div>
+      <mat-checkbox [checked]="checkSelectedItem(item)" (click)="changeItemSelection(item)"></mat-checkbox>
+    </div>
+    <div class="country-info" (click)="navigateToEntity(item)">
+      <div class="flag-container">
+        <img *ngIf="item.flag;else noImg" [src]="item.flag" width="70" height="70">
+      </div>
+      <div class="country-name">{{ item.name}} * <label>{{ item.code}}</label></div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #paymentRaw let-item="item" >
+  <div class="display-flex list-row">
+    <div>
+      <mat-checkbox [checked]="checkSelectedItem(item)" (click)="changeItemSelection(item)"></mat-checkbox>
+    </div>
+    <div class="payment-info" (click)="navigateToEntity(item)">
+      {{ item.status }}
+    </div>
+  </div>
+</ng-template>
+
+
